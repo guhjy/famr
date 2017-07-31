@@ -1,0 +1,22 @@
+Package: famr
+Title: Families of multiple regression models
+Version: 0.0.1.0
+Authors@R: person("Tomasz", "Konopka", , "tkonopka@qmul.ac.uk", role = c("aut", "cre"))
+Author: Tomasz Konopka [aut, cre]
+Maintainer: Tomasz Konopka <t.konopka@qmul.ac.uk>
+Description: Analysis of multivariate datasets through families of multiple regression models.
+Depends:
+    R (>= 3.1.2)
+Imports:
+    data.table,
+    Rcssplot,
+    stats,
+    utils
+License: GPL-2
+LazyData: true
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1

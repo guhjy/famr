@@ -1,0 +1,73 @@
+/* css for famr */
+
+
+par.famr {
+  mar: 3 3 2.5 2.5;
+}
+
+points.famr, axis.famr, text.famr {
+  xpd: 1;
+}
+
+
+/** generic plot look **/
+plot.famr {
+  xaxs: i;
+  yaxs: i;
+  axes: FALSE;
+  frame: FALSE;
+}
+axis.famr {
+  col: #888888;
+  col.ticks: #888888;
+  tck: -0.015;
+  cex: 0.8;
+}
+axis.famr.x {
+  line: -0.65;
+}
+axis.famr.y {
+  las: 1;
+  line: -0.55;
+}
+mtext.famr {
+  line: 1.7;
+  col: #000000;
+}
+mtext.famr.xlab {
+  line: 1.7;
+}
+mtext.famr.ylab {
+  line: 1.9;
+}
+
+
+
+
+/** contents of plot: points, lines, labels **/
+points.famr {
+  pch: 19;
+  col: #181818;
+  cex: 0.35;
+  lwd: 0;
+}
+lines.famr.basemodel {
+  lwd: 3.5;
+  col: #004fff;
+  xpd: 1;
+}
+lines.famr.basefit {
+  lwd: 3.5;
+  col: #dd0000;
+  xpd: 0;
+}
+lines.famr.othermodels {
+  lwd: 1;
+  col: #aaaaaa;
+  xpd: 0;
+}
+text.famr {
+  pos: 1;
+  offset: 0.5;
+}
+

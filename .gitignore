@@ -1,0 +1,12 @@
+## ignoring temporary files from emacs/knitr/tex
+
+*/*.*~
+*/*/*.*~
+*/*.tex
+*/*.aux
+*/*.log
+*/*.pdf
+*/*.out
+
+## ignore inst directory (contents of compiled vignettes)
+inst/doc
