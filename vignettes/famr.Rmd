@@ -16,7 +16,7 @@ vignette: >
 Structured datasets often consist of tables with observations recorded
 as rows and variables encoded in columns. Let's assume that two of the
 recorded variables, say `x` and `y`, are of particular interest. A typical
-data-science tasks might then be: are the two variables related?
+data-science question might then be: are the two variables related?
 
 A straightforward approach to this problem is to compute the correlation
 between `x` and `y`, for example using `cor.test`. This is informative,
@@ -49,30 +49,35 @@ below.
 ![](models.png){width=100%}
 
 In each diagram, circles indicate random variables and arrows reveal
-causal relations. In model 1, for example, variables `w1` through
+causal relations. In model 1, variables `w1` through
 `w6` as well as `x` are independent; values of variable `y`
-are determined by `x` (plus noise). Together, the models cover some of the
+are determined by `x` (plus noise). In model 2,`y` is driven by a combination
+of `w2` and `x`, and so on. Together, the models cover some of the
 common relationships encountered in multivariate datasets. 
 
-All the analyses rely on the `famr` package. Let's load it now. 
+The analyses below each use a toy dataset generated using one of
+these models. They build linear models of
+the form `y ~ (intercept) + (slope-x)x` and estimate values for the
+intercept and slope from the data. At the same time, the analyses
+also build families of models 
+`y ~ (intercept) x + (slope-x)x + (slope-w)w`, with `w` systematically
+replaced by variables `w1` through `w6`.
 
-```{r}
-library(famr)
-```
+
 
 
 ### Example 1 - simple correlation
 
 
-
-To begin, let's load toy dataset `mrdata1` (it is bundled with the package).
+To begin, let's load the package and a toy dataset `mrdata1` (it is bundled with the package).
 
 ```{r}
+library(famr)
 data(mrdata1)
 head(mrdata1, 3)
 ```
 
-This object is a data frame 8 columns. As before, let's assume that `x`
+This object is a data frame with 8 columns. As before, let's assume that `x`
 and `y` are of particular interest and use the other
 variables, i.e. `w1` through `w6`, as auxiliary data.
 
@@ -98,8 +103,7 @@ plot(family1, main="Dataset 1")
 ```
 
 This shows the raw values for the modeled variables. We see that there is
-a linear relation between them. The red line is a single-variable linear
-regression that models `y` given `x`.
+a linear relation. The red line is a single-variable linear regression.
 
 But recall that the `famr` analysis also contains auxiliary models.
 In those models, `y` is hypothesized to depends on `x`
@@ -188,7 +192,7 @@ The p-value diagram (right) leads us toward a similar conclusion. Two of the
 points fall to the far left of the baseline model. This suggests that
 including either `w3` or `w4` in a model de-emphasizes the importance of `x`.
 
-Given that we identified these new interesting variable, we can
+Given that we identified these new interesting variables, we can
 investigate further using `famr`, switching focus onto `w3`.
 
 ```{r, fig.width=8, fig.height=3, out.width="100%", dpi=200}
@@ -269,7 +273,7 @@ alternative models. Variable `w456` (defined by applying function `f456`
 on the dataset) greatly reduces the importance of `x`. As
 in the previous example, this is a suggestion to investigate further. In
 particular, we can perform a `famr` analysis focusing on `y` and `f456`.
-(Note the modified syntatx using a list as the third parameter).
+(Note the modified syntax using a list as the third parameter).
 
 ```{r, fig.width=8, fig.height=3, out.width="100%", dpi=200}
 family4c = famr(mrdata4, "y", list(w456=f456))
@@ -314,12 +318,12 @@ both `x` and `y` were generated independently from values of `w5`.
 The `famr` package provides wrappers and extensions to R's linear modeling
 and plot functions. These wrappers provide a means to test relations
 between variables of interest while automatically considering alternative
-models in the background. 
+models. 
 
 A possible practical application is during explorative stages of data
-analysis. Automatic testing families of related models can suggest
+analysis. Automatic testing of families of related models can suggest
 alternative relations between variables. Many dynamic systems with complex interactions, for example biological gene expression, are known to
-create [correlations between unrelated components](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002240). The package provide tools to perform tests for such effects in an automated and seamless fashion. 
+create [correlations between non-causally related components](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002240). The package provide tools to perform tests for such effects in an automated fashion. 
 
 
 ## Appendix

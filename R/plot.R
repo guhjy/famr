@@ -91,10 +91,29 @@ plotFamrScatter = function(x, ...) {
   ## add the data as points
   points(xvals, yvals)
 
+  xmeans = apply(x$data, 2, function(z) {
+    if (class(z) %in% c("numeric", "integer")) {
+      return (mean(z, na.rm=TRUE))
+    }
+    # for non-numerical, give zero
+    0    
+  })
+
   ## helper: render one model on the plot
   drawOneModel = function(model, lineclass) {
     coeff = summary(model)$coefficients
+    # the intercept will be the (intercept) plus contributions
+    # from all the other variables (use mean as a filler)
     intercept = coeff["(Intercept)", "Estimate"]
+    if (nrow(coeff)>2) {
+      for (i in 3:nrow(coeff)) {
+        iname = rownames(coeff)[i]
+	islope = coeff[i, "Estimate"]
+	if (iname %in% names(xmeans)) {
+	  intercept = intercept + (islope*xmeans[iname])
+	}
+      }
+    }
     slope = coeff[xvar, "Estimate"]
     lines(xrange, intercept + (xrange*slope), Rcssclass=lineclass)
   }
